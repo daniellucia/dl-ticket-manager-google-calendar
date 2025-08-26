@@ -12,14 +12,29 @@ class TMGoogleCalendarPlugin
     public function show_links($ticket, $order)
     {
 
-        $location = $ticket['address'] . ' , ' . $ticket['city'] . ' , ' . $ticket['state'];
+
+        $location = [];
+
+        if ($ticket['address']) {
+            $location[] = $ticket['address'];
+        }
+
+        if ($ticket['city']) {
+            $location[] = $ticket['city'];
+        }
+
+        if ($ticket['state']) {
+            $location[] = $ticket['state'];
+        }
+
+        $dateTimeEvent = new \DateTime($ticket['date'] . ' ' . $ticket['time'].':00');
 
         $url = $this->generateGoogleCalendarLink(
             $ticket['event'],
             $ticket['description'],
-            $location,
-            new \DateTime($ticket['date']),
-            new \DateTime($ticket['date'])
+            implode(', ', $location),
+            $dateTimeEvent,
+            (clone $dateTimeEvent)->modify('+2 hour')
         );
 
         echo '<p style="margin: 0;"><a href="' . esc_url($url) . '" target="_blank">' . __('Add to Google Calendar', 'dl-ticket-manager-google-calendar') . '</a></p>';
