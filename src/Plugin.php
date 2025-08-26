@@ -22,7 +22,7 @@ class TMGoogleCalendarPlugin
             new \DateTime($ticket['date'])
         );
 
-        echo '<p><a href="' . esc_url($url) . '" target="_blank">' . __('Add to Google Calendar', 'dl-ticket-manager-google-calendar') . '</a></p>';
+        echo '<p style="margin: 0;"><a href="' . esc_url($url) . '" target="_blank">' . __('Add to Google Calendar', 'dl-ticket-manager-google-calendar') . '</a></p>';
     }
 
     /**
