@@ -50,13 +50,8 @@ class TMGoogleCalendarPlugin
      * @return string
      * @author Daniel Lucia
      */
-    private function generateGoogleCalendarLink(
-        string $title,
-        string $description,
-        string $location,
-        \DateTime $start,
-        \DateTime $end
-    ): string {
+    
+    private function generateGoogleCalendarLink(string $title, string $description, string $location, \DateTime $start, \DateTime $end): string {
         $baseUrl = "https://www.google.com/calendar/render?action=TEMPLATE";
 
         $params = [
