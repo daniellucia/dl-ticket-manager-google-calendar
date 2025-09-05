@@ -1,8 +1,10 @@
 <?php
 
+namespace DL\TicketsGoogleCalendar;
+
 defined('ABSPATH') || exit;
 
-class TMGoogleCalendarPlugin
+class Plugin
 {
 
     public function init(): void
