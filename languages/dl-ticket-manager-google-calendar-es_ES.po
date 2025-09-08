@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Link to Google Calendar for Ticket Manager\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-08 09:45+0000\n"
+"PO-Revision-Date: 2025-09-08 09:46+0000\n"
+"Last-Translator: \n"
+"Language-Team: Español\n"
+"Language: es_ES\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.8.0; wp-6.8.2; php-8.1.29\n"
+"X-Domain: dl-ticket-manager-google-calendar"
+
+#: src/Plugin.php:44
+msgid "Add to Google Calendar"
+msgstr "Añadir a Google Calendar"
+
+#. Author of the plugin
+msgid "Daniel Lúcia"
+msgstr "Daniel Lúcia"
+
+#. Author URI of the plugin
+msgid "http://www.daniellucia.es"
+msgstr "http://www.daniellucia.es"
+
+#. Description of the plugin
+msgid "Link to Google Calendar for the ticket manager."
+msgstr "Enlace a Google Calendar para el gestor de entradas."
+
+#. Name of the plugin
+msgid "Link to Google Calendar for Ticket Manager"
+msgstr "Enlace a Google Calendar para Ticket Manager"
