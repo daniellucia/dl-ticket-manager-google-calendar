@@ -87,8 +87,6 @@ class Plugin
 
     private function generateGoogleCalendarLink(string $title, string $description, string $location, \DateTime $start, \DateTime $end): string
     {
-        $baseUrl = "https://www.google.com/calendar/render?action=TEMPLATE";
-
         $params = [
             "text" => $title,
             "details" => $description,
@@ -96,6 +94,6 @@ class Plugin
             "dates" => $start->format('Ymd\THis\Z') . "/" . $end->format('Ymd\THis\Z'),
         ];
 
-        return $baseUrl . "&" . http_build_query($params);
+        return self::GOOGLE_CALENDAR_BASE_URL. "&" . http_build_query($params);
     }
 }
