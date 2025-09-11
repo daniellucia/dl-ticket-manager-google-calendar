@@ -15,15 +15,24 @@ class Plugin
         $this->timezone = get_option('timezone_string') ?: 'UTC';
     }
 
+    /**
+     * Inicializa el plugin
+     * @return void
+     * @author Daniel Lucia
+     */
     public function init(): void
     {
         add_filter('dl_ticket_manager_email_ticket_details_after', [$this, 'show_links'], 10, 2);
     }
 
-
+    /**
+     * Muestra los enlaces para añadir a Google Calendar
+     * @param mixed $ticket
+     * @return void
+     * @author Daniel Lucia
+     */
     public function show_links($ticket)
     {
-
 
         $location = [];
 
