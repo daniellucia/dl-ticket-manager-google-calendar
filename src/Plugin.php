@@ -6,6 +6,14 @@ defined('ABSPATH') || exit;
 
 class Plugin
 {
+    private const DEFAULT_EVENT_DURATION_HOURS = 2;
+    private const GOOGLE_CALENDAR_BASE_URL = 'https://www.google.com/calendar/render?action=TEMPLATE';
+    private $timezone;
+
+    public function __construct(array $config = [])
+    {
+        $this->timezone = get_option('timezone_string') ?: 'UTC';
+    }
 
     public function init(): void
     {
@@ -13,7 +21,7 @@ class Plugin
     }
 
 
-    public function show_links($ticket, $order)
+    public function show_links($ticket)
     {
 
 
@@ -31,17 +39,39 @@ class Plugin
             $location[] = $ticket['state'];
         }
 
-        $dateTimeEvent = new \DateTime($ticket['date'] . ' ' . $ticket['time'].':00');
-
         $url = $this->generateGoogleCalendarLink(
             $ticket['event'],
             $ticket['description'],
             implode(', ', $location),
-            $dateTimeEvent,
-            (clone $dateTimeEvent)->modify('+2 hour')
+            $this->createDateTime($ticket['date'], $ticket['time']),
+            $this->createDateTime($ticket['date'], $ticket['time'], self::DEFAULT_EVENT_DURATION_HOURS)
         );
 
         echo '<p style="margin: 0;"><a href="' . esc_url($url) . '" target="_blank">' . __('Add to Google Calendar', 'dl-ticket-manager-google-calendar') . '</a></p>';
+    }
+
+    /**
+     * Método para crear la fecha con la zona horaria correcta
+     * @param string $date
+     * @param string $time
+     * @param int $addHours
+     * @return bool|\DateTime
+     * @author Daniel Lucia
+     */
+    private function createDateTime(string $date, string $time, int $addHours = 0): \DateTime
+    {
+        $timezone = new \DateTimeZone($this->timezone);
+        $dateTime = \DateTime::createFromFormat('Y-m-d H:i', $date . ' ' . $time, $timezone);
+
+        if (!$dateTime) {
+            throw new \InvalidArgumentException("Invalid date/time format: {$date} {$time}");
+        }
+
+        if ($addHours > 0) {
+            $dateTime->modify("+{$addHours} hours");
+        }
+
+        return $dateTime;
     }
 
     /**
@@ -54,8 +84,9 @@ class Plugin
      * @return string
      * @author Daniel Lucia
      */
-    
-    private function generateGoogleCalendarLink(string $title, string $description, string $location, \DateTime $start, \DateTime $end): string {
+
+    private function generateGoogleCalendarLink(string $title, string $description, string $location, \DateTime $start, \DateTime $end): string
+    {
         $baseUrl = "https://www.google.com/calendar/render?action=TEMPLATE";
 
         $params = [
