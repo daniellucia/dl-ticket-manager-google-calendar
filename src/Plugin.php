@@ -33,30 +33,33 @@ class Plugin
      */
     public function show_links($ticket)
     {
-
-        $location = [];
-
-        if ($ticket['address']) {
-            $location[] = $ticket['address'];
-        }
-
-        if ($ticket['city']) {
-            $location[] = $ticket['city'];
-        }
-
-        if ($ticket['state']) {
-            $location[] = $ticket['state'];
-        }
-
         $url = $this->generateGoogleCalendarLink(
             $ticket['event'],
             $ticket['description'],
-            implode(', ', $location),
+            $this->buildLocation($ticket),
             $this->createDateTime($ticket['date'], $ticket['time']),
             $this->createDateTime($ticket['date'], $ticket['time'], self::DEFAULT_EVENT_DURATION_HOURS)
         );
 
         echo '<p style="margin: 0;"><a href="' . esc_url($url) . '" target="_blank">' . __('Add to Google Calendar', 'dl-ticket-manager-google-calendar') . '</a></p>';
+    }
+
+    /**
+     * Construye la ubicación del evento a partir de los datos del ticket
+     * @param array $ticket
+     * @return string
+     * @author Daniel Lucia
+     */
+    private function buildLocation(array $ticket): string
+    {
+        $locationParts = array_filter([
+            $ticket['address'] ?? '',
+            $ticket['city'] ?? '',
+            $ticket['state'] ?? '',
+            $ticket['country'] ?? ''
+        ]);
+
+        return implode(', ', $locationParts);
     }
 
     /**
@@ -103,6 +106,6 @@ class Plugin
             "dates" => $start->format('Ymd\THis\Z') . "/" . $end->format('Ymd\THis\Z'),
         ];
 
-        return self::GOOGLE_CALENDAR_BASE_URL. "&" . http_build_query($params);
+        return self::GOOGLE_CALENDAR_BASE_URL . "&" . http_build_query($params);
     }
 }
